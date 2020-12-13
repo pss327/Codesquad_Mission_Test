@@ -33,4 +33,21 @@ Step2 - 평면 큐브 구현하기
 6. controllCube(String input) : checkElement(ArrayList<String> array)에서 확인 된 큐브 실행을 컨트롤한다.  
  
 Step3 - 루빅스 큐브 구현하기
+1. printCubic() : 초기 큐빅 및 변경 후 큐빅 화면표시 
+2. startPrint() : 큐빅설명 화면표시
+ * 무작위를 선택할 경우(M을 입력할 경우) checkInput(랜덤어레이리스트, 2)를 실행
+ * M이 아닌 경우 checkInput(arrayList, 1) 실행
+3. inputAddArray(String input) : 입력한 데이터 리스트에 담기
+4. checkInput(ArrayList<String> array, int randomCheck) : 입력한 데이터 확인
+  * array에 [ F, F', D, D', U, U', R, R', L, L', B, B', Q ] 가 들어 있는지 확인한다.
+  * 윗 조건에 해당할 경우 moveCubic 메소드를 실행한다.
+  * 완성 될 경우 "큐브를 완성했습니다.", "경과시간", "조작갯수"를 출력한다.
+  * Q 입력할 경우 "종료합니다.", "경과시간", "조작갯수"를 출력한다.
+5. ArrayList<String> randomCube() : 큐브ㅡ 무작위 섞기
+6. checkComplete() : 큐브 완성 확인 
+7. tempCubic() : 임시큐브 즉 이전 큐브를 담아둔다.
+8. moveCubic(String direction, int random, int randomText) : 입력한 데이터에 따라 큐빅을 이동한다. 
+ 
+ 
+
 
