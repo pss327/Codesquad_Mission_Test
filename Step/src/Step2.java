@@ -76,7 +76,7 @@ public class Step2 {
 					|| element.equals("Q")) {
 
 				// 큐브 동작
-				changeCube(element);
+				controllCube(element);
 
 			} else {
 
@@ -92,57 +92,46 @@ public class Step2 {
 
 	}
 
+	public void tmpCube() {
+		for (int i = 0; i < cube.length; i++) {
+			for (int j = 0; j < cube[i].length; j++) {
+				tmpCube[i][j] = cube[i][j];
+			}
+		}
+	}
+
+	public void changedCube() {
+		for (int i = 0; i < cube.length; i++) {
+			for (int j = 0; j < cube[i].length; j++) {
+				System.out.print(cube[i][j] + "\t");
+			}
+			System.out.println();
+		}
+		System.out.println();
+
+	}
+
 	// 3. MARK : 시스템 동작
-	public void changeCube(String input) {
+	public void controllCube(String input) {
 
 		switch (input) {
 
 		case "U":
-
 			System.out.println("U");
-
-			for (int i = 0; i < cube.length; i++) {
-				for (int j = 0; j < cube[i].length; j++) {
-					tmpCube[i][j] = cube[i][j];
-				}
-			}
-
+			tmpCube();
 			cube[0][0] = tmpCube[0][1];
 			cube[0][1] = tmpCube[0][2];
 			cube[0][2] = tmpCube[0][0];
-
-			for (int i = 0; i < cube.length; i++) {
-				for (int j = 0; j < cube[i].length; j++) {
-					System.out.print(cube[i][j] + "\t");
-				}
-				System.out.println();
-			}
-			System.out.println();
-
+			changedCube();
 			break;
 
 		case "U'":
-
 			System.out.println("U");
-
-			for (int i = 0; i < cube.length; i++) {
-				for (int j = 0; j < cube[i].length; j++) {
-					tmpCube[i][j] = cube[i][j];
-				}
-			}
-
+			tmpCube();
 			cube[0][0] = tmpCube[0][2];
 			cube[0][1] = tmpCube[0][0];
 			cube[0][2] = tmpCube[0][1];
-
-			for (int i = 0; i < cube.length; i++) {
-				for (int j = 0; j < cube[i].length; j++) {
-					System.out.print(cube[i][j] + "\t");
-				}
-				System.out.println();
-			}
-			System.out.println();
-
+			changedCube();
 			break;
 
 		case "R":
@@ -292,8 +281,7 @@ public class Step2 {
 		case "Q":
 
 			System.out.println("Bye~");
-			
-			
+
 			break;
 		}
 

@@ -7,6 +7,7 @@ public class Step3 {
 	private Scanner scan = new Scanner(System.in);
 	private int countNumber = 0;
 	private long startTime = 0;
+	private ArrayList<String> countArrayList = new ArrayList(); // 갯수 카운트
 	private char[][] tmpCube1 = new char[3][3];
 	private char[][] tmpCube2 = new char[3][3];
 	private char[][] tmpCube3 = new char[3][3];
@@ -80,9 +81,8 @@ public class Step3 {
 		String input = scan.nextLine();
 		System.out.println();
 		ArrayList<String> arrayList = inputAddArray(input);
-		// startTime = System.currentTimeMillis();
+		startTime = System.currentTimeMillis();
 		checkInput(arrayList);
-
 	}
 
 	// 입력한 데이터 리스트에 담기
@@ -99,6 +99,7 @@ public class Step3 {
 			String element = inputArray[i];
 			if (!element.equals("'")) {
 				arrayList.add(element);
+				countArrayList.add(element); // 갯수카운트 리스트
 			}
 		}
 		countNumber = arrayList.size();
@@ -107,6 +108,7 @@ public class Step3 {
 
 	// 입력한 데이터 확인
 	public void checkInput(ArrayList<String> array) {
+		String quit = "";
 		for (int i = 0; i < array.size(); i++) {
 			String element = array.get(i);
 
@@ -115,6 +117,9 @@ public class Step3 {
 					|| element.equals("L") || element.equals("L'") || element.equals("D") || element.equals("D'")
 					|| element.equals("Q")) {
 				// 큐브 동작
+				if (element.equals("Q")) {
+					quit = element;
+				}
 				moveCubic(element);
 			} else {
 				System.out.println("잘못된 입력 데이터가 들어가 있습니다.");
@@ -130,14 +135,21 @@ public class Step3 {
 			long minute = (term) / (1000 * 60);
 			long second = (term - (minute * 1000 * 60)) / 1000;
 			System.out.println("경과시간 : " + minute + "분 " + second + "초");
-			System.out.println("조작갯수 : " + countNumber);
-
+			System.out.println("조작갯수 : " + countArrayList.size());
+			// 미완성
 		} else if (isComplete == false) {
-			System.out.print("CUBE > ");
-			String input = scan.nextLine();
-			System.out.println();
-			ArrayList<String> arrayList = inputAddArray(input);
-			checkInput(arrayList);
+			if (quit.equals("Q")) {
+				String input = scan.nextLine();
+				System.out.println();
+				ArrayList<String> arrayList = inputAddArray(input);
+				checkInput(arrayList);
+			} else {
+				System.out.print("CUBE > ");
+				String input = scan.nextLine();
+				System.out.println();
+				ArrayList<String> arrayList = inputAddArray(input);
+				checkInput(arrayList);
+			}
 		}
 	}
 
@@ -240,11 +252,12 @@ public class Step3 {
 			}
 		}
 	}
-	
+
 	// 큐브 무작위 섞기
 	public void randomCube() {
-		
+
 	}
+
 	// 큐빅 이동
 	public void moveCubic(String direction) {
 
@@ -530,15 +543,14 @@ public class Step3 {
 
 			long endTime = System.currentTimeMillis();
 			long term = endTime - startTime;
-
 			long minute = (term) / (1000 * 60);
 			long second = (term - (minute * 1000 * 60)) / 1000;
 			System.out.println("경과시간 : " + minute + "분 " + second + "초");
-			System.out.println("조작갯수 : " + countNumber);
+			System.out.println("조작갯수 : " + countArrayList.size());
 			break;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 
 		Step3 step3 = new Step3();
