@@ -19,6 +19,18 @@ Step1 - 단어 밀어내기 구현하기
   * confirmLR L 인 경우 왼쪽으로 R 인 경우 오른쪽으로 밀어낸다.
 
 Step2 - 평면 큐브 구현하기
-
+1. mainScreen() : 화면표시 및 데이터입력
+2. inputAddArray(String input) : 입력 값 ArrayList에 담기
+ * 입력한 문자열을 문자로 나누어 배열에 담는다 String[] inputArray = input.split("")
+ * inputArray 배열에 "'"이 있을 경우 이전 인덱스에 있는 문자에 합친다.
+ * inputArray를 for문으로 돌려서 배열의 값을 ArrayList<String> arrayList에 담아둔다. 단 "'"가 들어있는 배열은 담지않는다.
+3. checkElement(ArrayList<String> array) : 입력 값 확인
+ * array에 [ U, U', R, R', L, L', B, B', Q ] 가 들어 있는지 확인한다.
+ * 윗 조건에 해당할 경우 controllCube(String input) 를 실행한다.
+ * 해당하지 않을 경우 "잘못된 입력 데이터가 들어가 있습니다." 를 출력한다.
+4. tmpCube() : 임시 큐브 확인 즉 이전 큐브를 저장해 두는 곳이다.
+5. changedCube() : 큐브 이동 즉 변경된 큐브를 출력한다.
+6. controllCube(String input) : checkElement(ArrayList<String> array)에서 확인 된 큐브 실행을 컨트롤한다.  
+ 
 Step3 - 루빅스 큐브 구현하기
 
