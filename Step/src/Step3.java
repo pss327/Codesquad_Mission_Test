@@ -5,9 +5,8 @@ import java.util.Scanner;
 public class Step3 {
 
 	private Scanner scan = new Scanner(System.in);
-	private int countNumber = 0;
 	private long startTime = 0;
-	private ArrayList<String> countArrayList = new ArrayList(); // 갯수 카운트
+	private ArrayList<String> countArrayList = new ArrayList<String>(); // 갯수 카운트
 	private char[][] tmpCube1 = new char[3][3];
 	private char[][] tmpCube2 = new char[3][3];
 	private char[][] tmpCube3 = new char[3][3];
@@ -29,8 +28,8 @@ public class Step3 {
 			{ // 6. 아랫면
 					{ 'R', 'R', 'R' }, { 'R', 'R', 'R' }, { 'R', 'R', 'R' } } };
 
-	// 초기 큐빅
-	public void prinInit() {
+	// 1. MARK : 큐빅 화면 표시
+	public void printCubic() {
 		for (int i = 0; i < initCubic[0].length; i++) {
 			for (int j = 0; j < initCubic[0][0].length; j++) {
 				if (j == 0 || j == 4 || j == 7) {
@@ -40,7 +39,6 @@ public class Step3 {
 			}
 			System.out.println();
 		}
-
 		for (int i = 0; i < initCubic[0].length; i++) {
 			for (int j = 1; j < initCubic.length - 1; j++) {
 				for (int k = 0; k < 3; k++) {
@@ -50,7 +48,6 @@ public class Step3 {
 			}
 			System.out.println();
 		}
-
 		for (int i = 0; i < initCubic[0].length; i++) {
 			for (int j = 0; j < initCubic[0][0].length; j++) {
 				if (j == 0 || j == 4 || j == 7) {
@@ -62,7 +59,7 @@ public class Step3 {
 		}
 	}
 
-	// 시작 화면
+	// 2. MARK : 큐빅설명 화면
 	public void startPrint() {
 		System.out.println();
 		System.out.println("--------------------------- 큐빅 설명  ------------------------------------------");
@@ -80,12 +77,21 @@ public class Step3 {
 		System.out.print("CUBE > ");
 		String input = scan.nextLine();
 		System.out.println();
-		ArrayList<String> arrayList = inputAddArray(input);
-		startTime = System.currentTimeMillis();
-		checkInput(arrayList);
+		// 무작위 선택 할 경우
+		if (input.equals("M")) {
+			ArrayList<String> randomArray = new ArrayList<String>();
+			randomArray = randomCube();
+			startTime = System.currentTimeMillis(); // 시작
+			checkInput(randomArray, 2);
+		} else {
+			// 무작위을 선택하지 않을 경우
+			ArrayList<String> arrayList = inputAddArray(input);
+			startTime = System.currentTimeMillis();
+			checkInput(arrayList, 1);
+		}
 	}
 
-	// 입력한 데이터 리스트에 담기
+	// 3. MARK : 입력한 데이터 리스트에 담기
 	public ArrayList<String> inputAddArray(String input) {
 		String[] inputArray = input.split("");
 		ArrayList<String> arrayList = new ArrayList<String>();
@@ -99,61 +105,103 @@ public class Step3 {
 			String element = inputArray[i];
 			if (!element.equals("'")) {
 				arrayList.add(element);
-				countArrayList.add(element); // 갯수카운트 리스트
+				countArrayList.add(element); // 입력한 갯수카운트 리스트
 			}
 		}
-		countNumber = arrayList.size();
+		arrayList.size();
 		return arrayList;
 	}
 
-	// 입력한 데이터 확인
-	public void checkInput(ArrayList<String> array) {
+	// 4. MARK : 입력한 데이터 확인
+	public void checkInput(ArrayList<String> array, int randomCheck) {
 		String quit = "";
+		int randomText = 1;
 		for (int i = 0; i < array.size(); i++) {
 			String element = array.get(i);
-
 			if (element.equals("F") || element.equals("F'") || element.equals("R") || element.equals("R'")
 					|| element.equals("U") || element.equals("U'") || element.equals("B") || element.equals("B'")
 					|| element.equals("L") || element.equals("L'") || element.equals("D") || element.equals("D'")
 					|| element.equals("Q")) {
-				// 큐브 동작
+				// 큐브 그만하기
 				if (element.equals("Q")) {
 					quit = element;
+				} else {
+					// 큐브 동작
+					if (i == array.size() - 1) {
+						randomCheck = 1;
+						randomText = 3;
+					}
+					if (randomCheck == 1) {
+						moveCubic(element, 1,randomText);
+					} else if (randomCheck == 2) {
+						randomText = 3;
+						moveCubic(element,2,randomText);
+					}
 				}
-				moveCubic(element);
 			} else {
 				System.out.println("잘못된 입력 데이터가 들어가 있습니다.");
 				startPrint();
 			}
 		}
-		// 완성 확인
-		boolean isComplete = checkComplete();
-		if (isComplete == true) {
-			System.out.println("큐브를 완성했습니다.");
-			long endTime = System.currentTimeMillis();
-			long term = endTime - startTime;
-			long minute = (term) / (1000 * 60);
-			long second = (term - (minute * 1000 * 60)) / 1000;
-			System.out.println("경과시간 : " + minute + "분 " + second + "초");
-			System.out.println("조작갯수 : " + countArrayList.size());
-			// 미완성
-		} else if (isComplete == false) {
-			if (quit.equals("Q")) {
-				String input = scan.nextLine();
-				System.out.println();
-				ArrayList<String> arrayList = inputAddArray(input);
-				checkInput(arrayList);
-			} else {
-				System.out.print("CUBE > ");
-				String input = scan.nextLine();
-				System.out.println();
-				ArrayList<String> arrayList = inputAddArray(input);
-				checkInput(arrayList);
+
+		if (randomCheck == 2) {
+			System.out.print("CUBE > ");
+			String input = scan.nextLine();
+			System.out.println();
+			ArrayList<String> arrayList = inputAddArray(input);
+			checkInput(arrayList, 1);
+		} else {
+			// 완성 확인
+			boolean isComplete = checkComplete();
+			if (isComplete == true) {
+				System.out.println("큐브를 완성했습니다.");
+				long endTime = System.currentTimeMillis();
+				long term = endTime - startTime;
+				long minute = (term) / (1000 * 60);
+				long second = (term - (minute * 1000 * 60)) / 1000;
+				System.out.println("경과시간 : " + minute + "분 " + second + "초");
+				System.out.println("조작갯수 : " + countArrayList.size());
+				// 미완성
+			} else if (isComplete == false) {
+				if (quit.equals("Q")) {
+					System.out.println("종료합니다.");
+					long endTime = System.currentTimeMillis();
+					long term = endTime - startTime;
+					long minute = (term) / (1000 * 60);
+					long second = (term - (minute * 1000 * 60)) / 1000;
+					System.out.println("경과시간 : " + minute + "분 " + second + "초");
+					System.out.println("조작갯수 : " + countArrayList.size());
+				} else {
+					System.out.print("CUBE > ");
+					String input = scan.nextLine();
+					System.out.println();
+					ArrayList<String> arrayList = inputAddArray(input);
+					checkInput(arrayList, 1);
+				}
 			}
 		}
 	}
 
-	// 완성 확인
+	// 5. MARK : 큐브 무작위 섞기
+	public ArrayList<String> randomCube() {
+		String[] randomList = { "F", "F'", "R", "R'", "U", "U'", "B", "B'", "L", "L'", "D", "D'" };
+		ArrayList<String> randomArrayList = new ArrayList<String>();
+		for (int i = 0; i < randomList.length; i++) {
+			int a = (int) (Math.random() * randomList.length);
+			String tmp = randomList[a];
+			randomList[a] = randomList[i];
+			randomList[i] = tmp;
+		}
+		for (int j = 0; j < randomList.length; j++) {
+			String element = randomList[j];
+			if (!element.equals("'")) {
+				randomArrayList.add(element);
+			}
+		}
+		return randomArrayList;
+	}
+
+	// 6. MARK : 완성 확인
 	public boolean checkComplete() {
 
 		boolean isComplete = false;
@@ -219,7 +267,7 @@ public class Step3 {
 		}
 	}
 
-	// 임시큐브
+	// 7. MARK : 임시큐브
 	public void tempCubic() {
 		for (int i = 0; i < initCubic[0].length; i++) {
 			for (int j = 0; j < initCubic[0][i].length; j++) {
@@ -252,18 +300,14 @@ public class Step3 {
 			}
 		}
 	}
-
-	// 큐브 무작위 섞기
-	public void randomCube() {
-
-	}
-
-	// 큐빅 이동
-	public void moveCubic(String direction) {
+	// 8. MARK : 큐빅 이동
+	public void moveCubic(String direction, int random, int randomText) {
 
 		switch (direction) {
 		case "F":
-			System.out.println("F 으로 이동");
+			if (randomText == 1) {
+				System.out.println("F 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][2][0] = tmpCube2[0][2];
@@ -282,11 +326,14 @@ public class Step3 {
 			initCubic[5][0][1] = tmpCube4[1][0];
 			initCubic[5][0][2] = tmpCube4[2][0];
 
-			prinInit();
-
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "F'":
-			System.out.println("F' 으로 이동");
+			if (randomText == 1) {
+				System.out.println("F' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][2][0] = tmpCube4[0][0];
@@ -305,12 +352,14 @@ public class Step3 {
 			initCubic[5][0][1] = tmpCube2[1][2];
 			initCubic[5][0][2] = tmpCube2[2][2];
 
-			prinInit();
-
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "R":
-
-			System.out.println("R 으로 이동");
+			if (randomText == 1) {
+				System.out.println("R' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][0][2] = tmpCube3[0][2];
@@ -329,10 +378,14 @@ public class Step3 {
 			initCubic[5][1][2] = tmpCube5[1][0];
 			initCubic[5][2][2] = tmpCube5[2][0];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "R'":
-			System.out.println("R' 으로 이동");
+			if (randomText == 1) {
+				System.out.println("R' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][0][2] = tmpCube5[0][0];
@@ -351,11 +404,14 @@ public class Step3 {
 			initCubic[5][1][2] = tmpCube3[1][2];
 			initCubic[5][2][2] = tmpCube3[2][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "L":
-
-			System.out.println("L 으로 이동");
+			if (randomText == 1) {
+				System.out.println("L 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][0][0] = tmpCube5[0][2];
@@ -374,11 +430,14 @@ public class Step3 {
 			initCubic[5][1][0] = tmpCube6[1][0];
 			initCubic[5][2][0] = tmpCube6[2][0];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "L'":
-
-			System.out.println("L' 으로 이동");
+			if (randomText == 1) {
+				System.out.println("L' 으로 이동");
+			}
 			tempCubic();
 			initCubic[0][0][0] = tmpCube3[0][0];
 			initCubic[0][1][0] = tmpCube3[1][0];
@@ -396,11 +455,15 @@ public class Step3 {
 			initCubic[5][1][0] = tmpCube5[1][2];
 			initCubic[5][2][0] = tmpCube5[2][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 
 		case "U":
-			System.out.println("U 으로 이동");
+			if (randomText == 1) {
+				System.out.println("U 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[1][0][0] = tmpCube5[0][0];
@@ -419,12 +482,15 @@ public class Step3 {
 			initCubic[4][0][1] = tmpCube4[0][1];
 			initCubic[4][0][2] = tmpCube4[0][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 
 		case "U'":
-			System.out.println("U'' 으로 이동");
-
+			if (randomText == 1) {
+				System.out.println("U' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[1][0][0] = tmpCube3[0][0];
@@ -443,11 +509,15 @@ public class Step3 {
 			initCubic[4][0][1] = tmpCube2[0][1];
 			initCubic[4][0][2] = tmpCube2[0][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 
 		case "B":
-			System.out.println("B 으로 이동");
+			if (randomText == 1) {
+				System.out.println("B' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][0][0] = tmpCube4[0][2];
@@ -466,10 +536,14 @@ public class Step3 {
 			initCubic[3][1][2] = tmpCube6[2][1];
 			initCubic[3][2][2] = tmpCube6[2][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "B'":
-			System.out.println("B' 으로 이동");
+			if (randomText == 1) {
+				System.out.println("B' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[0][0][0] = tmpCube2[0][0];
@@ -488,11 +562,15 @@ public class Step3 {
 			initCubic[3][1][2] = tmpCube1[0][1];
 			initCubic[3][2][2] = tmpCube1[0][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 
 		case "D":
-			System.out.println("D 으로 이동");
+			if (randomText == 1) {
+				System.out.println("D 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[1][2][0] = tmpCube5[2][0];
@@ -511,12 +589,14 @@ public class Step3 {
 			initCubic[4][2][1] = tmpCube4[2][1];
 			initCubic[4][2][2] = tmpCube4[2][2];
 
-			prinInit();
-
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 		case "D'":
-
-			System.out.println("D' 으로 이동");
+			if (randomText == 1) {
+				System.out.println("D' 으로 이동");
+			}
 			tempCubic();
 
 			initCubic[1][2][0] = tmpCube3[2][0];
@@ -535,7 +615,9 @@ public class Step3 {
 			initCubic[4][2][1] = tmpCube2[2][1];
 			initCubic[4][2][2] = tmpCube2[2][2];
 
-			prinInit();
+			if (random == 1) {
+				printCubic();
+			}
 			break;
 
 		case "Q":
@@ -554,7 +636,7 @@ public class Step3 {
 	public static void main(String[] args) {
 
 		Step3 step3 = new Step3();
-		step3.prinInit();
+		step3.printCubic();
 		step3.startPrint();
 	}
 }

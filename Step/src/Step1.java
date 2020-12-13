@@ -43,7 +43,6 @@ public class Step1 {
 
 	// 3. MARK : 입력한 L 또는 R 확인 처리
 	public String inputLRcheck(String inputLR) {
-
 		String checkLR = inputLR;
 		if (checkLR.equals("L") || checkLR.equals("l") || checkLR.equals("R") || checkLR.equals("r")) {
 			return checkLR;
@@ -76,7 +75,6 @@ public class Step1 {
 				num = num * -1;
 			}
 		}
-
 		// 2. 왼쪽으로 단어 밀어내기 조건
 		if (confirmLR.equals("L")) {
 			for (int i = 0; i < num; i++) {

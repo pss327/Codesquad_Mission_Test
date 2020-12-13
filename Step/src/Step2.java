@@ -51,7 +51,6 @@ public class Step2 {
 				inputArray[i - 1] = inputArray[i - 1] + "'";
 			}
 		}
-
 		for (int i = 0; i < inputArray.length; i++) {
 
 			String element = inputArray[i];
@@ -60,7 +59,6 @@ public class Step2 {
 				arrayList.add(element);
 			}
 		}
-
 		return arrayList;
 	}
 
@@ -92,6 +90,7 @@ public class Step2 {
 
 	}
 
+	// 3. MARK : 임시 큐브 확인
 	public void tmpCube() {
 		for (int i = 0; i < cube.length; i++) {
 			for (int j = 0; j < cube[i].length; j++) {
@@ -100,6 +99,7 @@ public class Step2 {
 		}
 	}
 
+	// 4. MARK : 큐브 이동
 	public void changedCube() {
 		for (int i = 0; i < cube.length; i++) {
 			for (int j = 0; j < cube[i].length; j++) {
@@ -111,7 +111,7 @@ public class Step2 {
 
 	}
 
-	// 3. MARK : 시스템 동작
+	// 5. MARK : 시스템 동작
 	public void controllCube(String input) {
 
 		switch (input) {
