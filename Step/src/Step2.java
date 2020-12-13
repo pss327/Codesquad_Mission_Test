@@ -10,7 +10,6 @@ public class Step2 {
 	public void mainScreen() {
 
 		System.out.println("<< 초기 큐브 >>");
-
 		for (int i = 0; i < cube.length; i++) {
 			for (int j = 0; j < cube[i].length; j++) {
 				System.out.print(cube[i][j] + "\t"); // 열 출력
