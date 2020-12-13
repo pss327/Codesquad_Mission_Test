@@ -43,7 +43,7 @@ Step3 - 루빅스 큐브 구현하기
   * 윗 조건에 해당할 경우 moveCubic 메소드를 실행한다.
   * 완성 될 경우 "큐브를 완성했습니다.", "경과시간", "조작갯수"를 출력한다.
   * Q 입력할 경우 "종료합니다.", "경과시간", "조작갯수"를 출력한다.
-5. ArrayList<String> randomCube() : 큐브ㅡ 무작위 섞기
+5. ArrayList<String> randomCube() : 큐브로 무작위 섞기
 6. checkComplete() : 큐브 완성 확인 
 7. tempCubic() : 임시큐브 즉 이전 큐브를 담아둔다.
 8. moveCubic(String direction, int random, int randomText) : 입력한 데이터에 따라 큐빅을 이동한다. 
